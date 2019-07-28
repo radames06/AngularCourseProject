@@ -8,28 +8,34 @@ import { Subject } from 'rxjs';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'Crumble',
-      'description of crumble',
-      'https://www.papillesetpupilles.fr/wp-content/uploads/2015/11/Crumble-aux-pommes-et-cannelle-600x413.jpg',
-      [
-        new Ingredient('Meat', 1),
-        new Ingredient('Frites', 3)
-      ]
-    ),
-    new Recipe(
-      'Crumble 2',
-      'description of crumble 2',
-      'https://www.papillesetpupilles.fr/wp-content/uploads/2015/11/Crumble-aux-pommes-et-cannelle-600x413.jpg',
-      [
-        new Ingredient('pommes', 4),
-        new Ingredient('Beurre', 250)
-      ]
-    )
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'Crumble',
+  //     'description of crumble',
+  //     'https://www.papillesetpupilles.fr/wp-content/uploads/2015/11/Crumble-aux-pommes-et-cannelle-600x413.jpg',
+  //     [
+  //       new Ingredient('Meat', 1),
+  //       new Ingredient('Frites', 3)
+  //     ]
+  //   ),
+  //   new Recipe(
+  //     'Crumble 2',
+  //     'description of crumble 2',
+  //     'https://www.papillesetpupilles.fr/wp-content/uploads/2015/11/Crumble-aux-pommes-et-cannelle-600x413.jpg',
+  //     [
+  //       new Ingredient('pommes', 4),
+  //       new Ingredient('Beurre', 250)
+  //     ]
+  //   )
+  // ];
+  private recipes :Recipe[] = [];
 
   constructor(private slService: ShoppingListService) {}
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   getRecipes() {
     return this.recipes.slice();

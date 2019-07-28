@@ -6,6 +6,7 @@ import { RecipeDetailComponent } from './header/recipe-book/recipe-detail/recipe
 import { ShoppingListComponent } from './header/shopping-list/shopping-list.component';
 import { RecipeStartComponent } from './header/recipe-book/recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './header/recipe-book/recipe-edit/recipe-edit.component';
+import { RecipesResolverService } from './header/recipe-book/recipes-resolver.service';
 
 
 const appRoutes: Routes = [
@@ -13,10 +14,10 @@ const appRoutes: Routes = [
   { path: 'recipes', component: RecipeBookComponent, children: [
     { path: '', component: RecipeStartComponent },
     { path: 'new', component: RecipeEditComponent },
-    { path: ':id', component: RecipeDetailComponent },
+    { path: ':id', component: RecipeDetailComponent, resolve: [RecipesResolverService] },
     { path: ':id/edit', component: RecipeEditComponent }
   ] },
-  { path: 'shopping-list', component: ShoppingListComponent }
+  { path: 'shopping-list', component: ShoppingListComponent, resolve: [RecipesResolverService] }
 ];
 
 @NgModule({
