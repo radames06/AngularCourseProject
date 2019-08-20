@@ -1,39 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { RecipeBookComponent } from './header/recipe-book/recipe-book.component';
-import { RecipeDetailComponent } from './header/recipe-book/recipe-detail/recipe-detail.component';
-import { ShoppingListComponent } from './header/shopping-list/shopping-list.component';
-import { RecipeStartComponent } from './header/recipe-book/recipe-start/recipe-start.component';
-import { RecipeEditComponent } from './header/recipe-book/recipe-edit/recipe-edit.component';
-import { RecipesResolverService } from './header/recipe-book/recipes-resolver.service';
-import { AuthComponent } from './auth/auth.component';
-import { AuthGuard } from './auth/auth.guard';
-
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const appRoutes: Routes = [
   { path: '',  redirectTo: '/recipes', pathMatch: 'full' },
-  { 
-    path: 'recipes', 
-    component: RecipeBookComponent, 
-    canActivate: [AuthGuard],
-    children: [
-    { path: '', component: RecipeStartComponent },
-    { path: 'new', component: RecipeEditComponent },
-    { path: ':id', component: RecipeDetailComponent, resolve: [RecipesResolverService] },
-    { path: ':id/edit', component: RecipeEditComponent }
-  ] },
-  { path: 'shopping-list', component: ShoppingListComponent, resolve: [RecipesResolverService] },
-  { path: 'auth', component: AuthComponent}
+  { path: 'recipes', loadChildren: './header/recipe-book/recipes.module#RecipesModule' },
+  { path: 'shopping-list', loadChildren: './header/shopping-list/shopping-list.module#ShoppingListModule' },
+  { path: 'auth', loadChildren: './auth/auth.module#AuthModule' }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })
 
-export class AppRoutingModule {
-
-}
+export class AppRoutingModule {}
